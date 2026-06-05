@@ -43,46 +43,92 @@ function initCursor() {
     return;
   }
 
-  const svg = cursor.querySelector('.nail-cursor-svg');
-  let mx = -200, my = -200, cx = -200, cy = -200;
-  let lastX = -200, lastY = -200, trailTimer = 0;
+  // Soft glow ring that lags well behind the cursor
+  const glow = document.createElement('div');
+  glow.id = 'cursorGlow';
+  document.body.appendChild(glow);
 
-  // Brush tip offset inside the element (after CSS rotation of -28deg):
-  // SVG 44×90, tip at (22, 87). After -28° rotation around center (22,45):
-  // relative (0, 42) → rotated: (42·sin28°, 42·cos28°) = (19.7, 37.1)
-  // absolute: (41.7, 82.1) ≈ (42, 82)
-  const OX = 42, OY = 82;
+  // Hotspot: SVG 22×36, nail tip at top-center (11, 2).
+  // transform-origin: 50% 3% ≈ (11, 1) keeps tip pinned through rotation.
+  const OX = 11, OY = 2;
+  let mx = -200, my = -200, cx = -200, cy = -200;
+  let gx = -200, gy = -200;
+  let lastX = -200, lastY = -200, trailTimer = 0;
 
   document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
   (function anim() {
-    cx += (mx - cx) * 0.13;
-    cy += (my - cy) * 0.13;
+    cx += (mx - cx) * 0.26;
+    cy += (my - cy) * 0.26;
+    gx += (mx - gx) * 0.07;
+    gy += (my - gy) * 0.07;
     cursor.style.transform = `translate(${cx - OX}px, ${cy - OY}px)`;
+    glow.style.transform = `translate(${gx}px, ${gy}px)`;
     requestAnimationFrame(anim);
   })();
 
-  // Paint drop trail
-  const dropColors = ['#C4909A','#C8A96E','#F0D5D9','#E2CC9C'];
+  // Sparkle + glitter trail
+  const sparkleColors = ['#C4909A','#C8A96E','#F0D5D9','#E2CC9C','#FADADD','#D4A8B0'];
+  const shapes = ['star','star','heart','dot','dot','dot'];
+
+  function spawnParticles(x, y, count) {
+    for (let i = 0; i < count; i++) {
+      const shape  = shapes[Math.floor(Math.random() * shapes.length)];
+      const color  = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+      const dur    = (.38 + Math.random() * .32).toFixed(2);
+      const tx     = ((Math.random() - .5) * 30).toFixed(1);
+      const ty     = (-6 - Math.random() * 22).toFixed(1);
+      const rot    = Math.floor(Math.random() * 360);
+      const ox     = x + (Math.random() - .5) * 12;
+      const oy     = y + (Math.random() - .5) * 12;
+
+      if (shape === 'dot') {
+        const d = document.createElement('div');
+        d.className = 'glitter';
+        const sz = 3 + Math.random() * 4;
+        d.style.cssText = `left:${ox-sz/2}px;top:${oy-sz/2}px;width:${sz}px;height:${sz}px;background:${color};--dur:${dur}s;--ty:${ty}px;`;
+        document.body.appendChild(d);
+        setTimeout(() => d.remove(), dur * 1000 + 60);
+      } else {
+        const sp = document.createElement('div');
+        sp.className = 'sparkle';
+        sp.style.cssText = `left:${ox}px;top:${oy}px;--dur:${dur}s;--tx:${tx}px;--ty:${ty}px;--rot:${rot}deg;`;
+        sp.innerHTML = shape === 'heart'
+          ? `<svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 8.5C5 8.5 1 5.5 1 3A2 2 0 015 3 2 2 0 019 3C9 5.5 5 8.5 5 8.5Z" fill="${color}" opacity=".9"/></svg>`
+          : `<svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 0L5.9 3.5L9.5 4.2L6.6 6.9L7.6 10.5L5 8.5L2.4 10.5L3.4 6.9L0.5 4.2L4.1 3.5Z" fill="${color}" opacity=".95"/></svg>`;
+        document.body.appendChild(sp);
+        setTimeout(() => sp.remove(), dur * 1000 + 60);
+      }
+    }
+  }
+
   document.addEventListener('mousemove', e => {
     const now = Date.now();
-    if (now - trailTimer < 80) return;
-    if (Math.abs(e.clientX - lastX) + Math.abs(e.clientY - lastY) < 8) return;
-    trailTimer = now;
-    lastX = e.clientX; lastY = e.clientY;
+    if (now - trailTimer < 42) return;
+    if (Math.abs(e.clientX - lastX) + Math.abs(e.clientY - lastY) < 5) return;
+    trailTimer = now; lastX = e.clientX; lastY = e.clientY;
+    spawnParticles(e.clientX, e.clientY, 1 + (Math.random() < .35 ? 1 : 0));
+  });
 
-    const drop = document.createElement('div');
-    drop.className = 'paint-drop';
-    const size = 5 + Math.random() * 6;
-    drop.style.cssText = `
-      left:${e.clientX - size/2}px;
-      top:${e.clientY - size/2}px;
-      width:${size}px; height:${size}px;
-      background:${dropColors[Math.floor(Math.random()*dropColors.length)]};
-      opacity:.75;
-    `;
-    document.body.appendChild(drop);
-    setTimeout(() => drop.remove(), 950);
+  // Click: ripple + burst
+  document.addEventListener('click', e => {
+    const r = document.createElement('div');
+    r.className = 'click-ripple';
+    r.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;width:22px;height:22px;`;
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 680);
+    for (let i = 0; i < 7; i++) {
+      const color = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+      const angle = (i / 7) * Math.PI * 2;
+      const dist  = 18 + Math.random() * 20;
+      const sp    = document.createElement('div');
+      sp.className = 'sparkle';
+      const dur = (.3 + Math.random() * .25).toFixed(2);
+      sp.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;--dur:${dur}s;--tx:${(Math.cos(angle)*dist).toFixed(1)}px;--ty:${(Math.sin(angle)*dist).toFixed(1)}px;--rot:${Math.floor(Math.random()*360)}deg;`;
+      sp.innerHTML = `<svg width="9" height="9" viewBox="0 0 10 10"><path d="M5 0L5.9 3.5L9.5 4.2L6.6 6.9L7.6 10.5L5 8.5L2.4 10.5L3.4 6.9L0.5 4.2L4.1 3.5Z" fill="${color}" opacity=".95"/></svg>`;
+      document.body.appendChild(sp);
+      setTimeout(() => sp.remove(), dur * 1000 + 60);
+    }
   });
 
   // Hover / text states

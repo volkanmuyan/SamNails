@@ -63,7 +63,7 @@ ul { list-style: none; }
 .section { padding: 8rem 0; }
 
 /* ================================================================
-   CURSOR — nail polish bottle
+   CURSOR — nail art tırnak
    ================================================================ */
 #cursor {
   position: fixed; top: 0; left: 0;
@@ -72,31 +72,71 @@ ul { list-style: none; }
 }
 .nail-cursor-svg {
   display: block;
-  transform: rotate(-28deg);
-  transform-origin: 50% 50%;
-  filter: drop-shadow(0 4px 12px rgba(196,144,154,.45));
-  transition: transform .25s var(--ease), filter .25s;
+  transform: rotate(10deg);
+  transform-origin: 50% 3%;
+  filter: drop-shadow(0 3px 8px rgba(196,144,154,.55));
+  transition: transform .2s var(--ease), filter .2s;
 }
 body.c-hover .nail-cursor-svg {
-  transform: rotate(-18deg) scale(1.18);
-  filter: drop-shadow(0 6px 18px rgba(196,144,154,.6));
+  transform: rotate(10deg) scale(1.22);
+  filter: drop-shadow(0 5px 16px rgba(196,144,154,.75));
 }
 body.c-text .nail-cursor-svg {
-  transform: rotate(-90deg) scale(.85);
-  opacity: .6;
+  transform: rotate(10deg) scale(.8);
+  opacity: .5;
 }
 
-/* Paint trail drops */
-.paint-drop {
+/* Lag glow ring (follows slowly behind cursor) */
+#cursorGlow {
+  position: fixed; top: 0; left: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,144,154,.25) 0%, transparent 70%);
+  pointer-events: none; z-index: 9997;
+  will-change: transform;
+  transform: translate(-50%,-50%);
+  transition: opacity .3s;
+}
+
+/* Sparkle particles */
+.sparkle {
   position: fixed;
-  border-radius: 50% 50% 60% 40%;
   pointer-events: none;
   z-index: 9998;
-  animation: dropFall .9s var(--ease) forwards;
+  animation: sparkleFly var(--dur,.6s) var(--ease) forwards;
+  transform-origin: center;
 }
-@keyframes dropFall {
-  0%   { opacity: .75; transform: scale(1) translateY(0); }
-  100% { opacity: 0;   transform: scale(.5) translateY(18px); }
+@keyframes sparkleFly {
+  0%   { opacity: 1;  transform: translate(0,0) scale(1) rotate(0deg); }
+  100% { opacity: 0;  transform: translate(var(--tx,0px), var(--ty,-20px)) scale(0) rotate(var(--rot,180deg)); }
+}
+
+/* Glitter trail */
+.glitter {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9996;
+  animation: glitterFade var(--dur,.5s) ease-out forwards;
+}
+@keyframes glitterFade {
+  0%   { opacity: .9; transform: scale(1) translateY(0); }
+  100% { opacity: 0;  transform: scale(.3) translateY(var(--ty, 12px)); }
+}
+
+/* Ripple on click */
+.click-ripple {
+  position: fixed;
+  border: 2px solid var(--rose);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9995;
+  animation: rippleOut .6s var(--ease) forwards;
+  transform: translate(-50%,-50%) scale(0);
+}
+@keyframes rippleOut {
+  0%   { opacity: .8; transform: translate(-50%,-50%) scale(0); }
+  100% { opacity: 0;  transform: translate(-50%,-50%) scale(3); }
 }
 
 /* ================================================================
