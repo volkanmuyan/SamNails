@@ -33,34 +33,63 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ================================================================
-   CUSTOM CURSOR
+   CUSTOM CURSOR — nail polish bottle
    ================================================================ */
 function initCursor() {
   const cursor = document.getElementById('cursor');
   if (!cursor || window.matchMedia('(pointer:coarse)').matches) {
     if (cursor) cursor.style.display = 'none';
-    document.body.style.cursor = '';
+    document.body.style.cursor = 'auto';
     return;
   }
-  const dot  = cursor.querySelector('.cursor-dot');
-  const ring = cursor.querySelector('.cursor-ring');
-  let mx = -100, my = -100, rx = -100, ry = -100;
+
+  const svg = cursor.querySelector('.nail-cursor-svg');
+  let mx = -200, my = -200, cx = -200, cy = -200;
+  let lastX = -200, lastY = -200, trailTimer = 0;
+
+  // Brush tip offset inside the element (after CSS rotation of -28deg):
+  // SVG 44×90, tip at (22, 87). After -28° rotation around center (22,45):
+  // relative (0, 42) → rotated: (42·sin28°, 42·cos28°) = (19.7, 37.1)
+  // absolute: (41.7, 82.1) ≈ (42, 82)
+  const OX = 42, OY = 82;
 
   document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
   (function anim() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    dot.style.transform  = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
-    ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+    cx += (mx - cx) * 0.13;
+    cy += (my - cy) * 0.13;
+    cursor.style.transform = `translate(${cx - OX}px, ${cy - OY}px)`;
     requestAnimationFrame(anim);
   })();
 
+  // Paint drop trail
+  const dropColors = ['#C4909A','#C8A96E','#F0D5D9','#E2CC9C'];
+  document.addEventListener('mousemove', e => {
+    const now = Date.now();
+    if (now - trailTimer < 80) return;
+    if (Math.abs(e.clientX - lastX) + Math.abs(e.clientY - lastY) < 8) return;
+    trailTimer = now;
+    lastX = e.clientX; lastY = e.clientY;
+
+    const drop = document.createElement('div');
+    drop.className = 'paint-drop';
+    const size = 5 + Math.random() * 6;
+    drop.style.cssText = `
+      left:${e.clientX - size/2}px;
+      top:${e.clientY - size/2}px;
+      width:${size}px; height:${size}px;
+      background:${dropColors[Math.floor(Math.random()*dropColors.length)]};
+      opacity:.75;
+    `;
+    document.body.appendChild(drop);
+    setTimeout(() => drop.remove(), 950);
+  });
+
+  // Hover / text states
   document.querySelectorAll('a, button, .gallery-card, .service-block, .contact-card, .blog-card, .service-pick-card').forEach(el => {
     el.addEventListener('mouseenter', () => document.body.classList.add('c-hover'));
     el.addEventListener('mouseleave', () => document.body.classList.remove('c-hover'));
   });
-
   document.querySelectorAll('input, textarea').forEach(el => {
     el.addEventListener('mouseenter', () => document.body.classList.add('c-text'));
     el.addEventListener('mouseleave', () => document.body.classList.remove('c-text'));
