@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sam Nails — Nails With Love · Leuven</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+/* ================================================================
+   DESIGN TOKENS
+   ================================================================ */
+:root {
+  --cream:   #FAF6F1;
+  --ivory:   #F2EBE0;
+  --blush:   #F0D5D9;
+  --rose:    #C4909A;
+  --rose-d:  #8B5A65;
+  --gold:    #C8A96E;
+  --gold-l:  #E2CC9C;
+  --ink:     #1A1118;
+  --ink-60:  rgba(26,17,24,0.6);
+  --ink-30:  rgba(26,17,24,0.3);
+  --white:   #FFFFFF;
+  --border:  rgba(196,144,154,0.22);
+
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --nav-h: 76px;
+  --r: 4px;
+}
+
+/* ================================================================
+   RESET
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.65;
+  overflow-x: hidden;
+  cursor: none;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { border: none; background: none; cursor: none; font-family: inherit; }
+ul { list-style: none; }
+.container { max-width: 1240px; margin: 0 auto; padding: 0 2.5rem; }
+
+/* ================================================================
+   CUSTOM CURSOR
+   ================================================================ */
+#cursor {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+.cursor-dot {
+  position: absolute;
+  width: 8px; height: 8px;
+  background: var(--white);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s var(--ease-out), width 0.3s var(--ease-out), height 0.3s var(--ease-out);
+}
+.cursor-ring {
+  position: absolute;
+  width: 36px; height: 36px;
+  border: 1px solid var(--white);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.35s var(--ease-out), width 0.3s var(--ease-out), height 0.3s var(--ease-out), opacity 0.3s;
+}
+body.cursor-hover .cursor-dot  { width: 56px; height: 56px; }
+body.cursor-hover .cursor-ring { opacity: 0; }
+
+/* ================================================================
+   LOADER
+   ================================================================ */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: opacity 0.7s var(--ease-out), visibility 0.7s;
+}
+#loader.out { opacity: 0; visibility: hidden; }
+.loader-brand {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 300;
+  color: var(--white);
+  letter-spacing: 0.12em;
+  overflow: hidden;
+}
+.loader-brand span {
+  display: inline-block;
+  transform: translateY(100%);
+  animation: loaderUp 0.9s var(--ease-out) 0.2s forwards;
+}
+.loader-line {
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  animation: loaderLine 1.2s var(--ease-out) 0.4s forwards;
+}
+@keyframes loaderUp { to { transform: translateY(0); } }
+@keyframes loaderLine { to { width: 180px; } }
+
+/* ================================================================
+   NAV
+   ================================================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  transition: background 0.5s var(--ease-out);
+}
+.nav.scrolled {
+  background: rgba(250,246,241,0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1;
+}
+.nav-brand-name {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.nav-brand-tag {
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--rose-d);
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+.nav-links a {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  transition: color 0.3s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.4s var(--ease-out);
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after { width: 100%; }
+.nav-book {
+  padding: 0.55rem 1.4rem !important;
+  border: 1px solid var(--ink) !important;
+  border-radius: 100px !important;
+  color: var(--ink) !important;
+  font-size: 0.72rem;
+  transition: background 0.3s, color 0.3s !important;
+}
+.nav-book::after { display: none !important; }
+.nav-book:hover { background: var(--ink) !important; color: var(--white) !important; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+}
+.hamburger span {
+  display: block;
+  width: 24px; height: 1px;
+  background: var(--ink);
+  transition: all 0.35s var(--ease-out);
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed;
+  inset: var(--nav-h) 0 0 0;
+  background: var(--cream);
+  z-index: 499;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  transition: clip-path 0.6s var(--ease-out);
+}
+.mobile-menu.open { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+.mobile-menu a {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--rose-d); }
+
+/* ================================================================
+   HERO
+   ================================================================ */
+.hero {
+  position: relative;
+  height: 100dvh;
+  min-height: 700px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.hero-left {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 4rem 6rem clamp(2rem, 6vw, 6rem);
+  background: var(--cream);
+}
+
+.hero-right {
+  position: relative;
+  overflow: hidden;
+}
+.hero-right img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(1.12);
+  animation: heroReveal 1.6s var(--ease-out) 1.4s forwards;
+}
+@keyframes heroReveal {
+  to { transform: scale(1); }
+}
+.hero-right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--cream) 0%, transparent 30%);
+  z-index: 1;
+}
+
+.hero-overline {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--rose-d);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  overflow: hidden;
+}
+.hero-overline::before {
+  content: '';
+  display: block;
+  width: 40px; height: 1px;
+  background: var(--rose-d);
+}
+.hero-overline span {
+  display: inline-block;
+  transform: translateY(120%);
+  animation: slideUp 0.9s var(--ease-out) 1.4s forwards;
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+}
+.hero-title .word {
+  display: block;
+  overflow: hidden;
+}
+.hero-title .word span {
+  display: block;
+  transform: translateY(110%);
+}
+.hero-title .word:nth-child(1) span { animation: slideUp 1s var(--ease-out) 1.5s forwards; font-size: clamp(5rem, 10vw, 9rem); }
+.hero-title .word:nth-child(2) span { animation: slideUp 1s var(--ease-out) 1.62s forwards; font-size: clamp(5rem, 10vw, 9rem); font-style: italic; color: var(--rose-d); }
+
+.hero-sub {
+  font-size: 0.9rem;
+  color: var(--ink-60);
+  max-width: 280px;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeIn 0.8s var(--ease-out) 1.9s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.8s var(--ease-out) 2.1s forwards;
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  z-index: 3;
+  writing-mode: vertical-rl;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeIn 1s var(--ease-out) 2.4s forwards;
+}
+.hero-scroll-hint::after {
+  content: '';
+  display: block;
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+}
+
+@keyframes slideUp { to { transform: translateY(0); } }
+@keyframes fadeIn  { to { opacity: 1; } }
+
+/* ================================================================
+   MARQUEE STRIP
+   ================================================================ */
+.marquee-strip {
+  overflow: hidden;
+  background: var(--ink);
+  padding: 1.1rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.marquee-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 2rem;
+  white-space: nowrap;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.marquee-item .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ================================================================
+   GALLERY SCROLL (horizontal)
+   ================================================================ */
+.gallery-section {
+  padding: 7rem 0 0;
+  overflow: hidden;
+}
+.gallery-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  padding: 0 2.5rem;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.label-tag {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--rose-d);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.label-tag::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: var(--rose-d);
+}
+.section-heading {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.section-heading em { font-style: italic; color: var(--rose-d); }
+.gallery-scroll-hint {
+  font-size: 0.7rem;
+  color: var(--ink-30);
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.gallery-scroll-hint svg { width: 20px; height: 20px; stroke: var(--ink-30); }
+
+.gallery-track {
+  display: flex;
+  gap: 1.2rem;
+  padding: 0 2.5rem 4rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+}
+.gallery-track:active { cursor: grabbing; }
+.gallery-track::-webkit-scrollbar { display: none; }
+
+.gallery-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s var(--ease-out);
+}
+.gallery-card:hover img { transform: scale(1.06); }
+.gallery-card-label {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  background: rgba(250,246,241,0.92);
+  backdrop-filter: blur(8px);
+  padding: 0.4rem 0.9rem;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  transform: translateY(8px);
+  opacity: 0;
+  transition: transform 0.4s var(--ease-out), opacity 0.4s;
+}
+.gallery-card:hover .gallery-card-label { opacity: 1; transform: translateY(0); }
+
+.gc-tall  { width: 280px; height: 420px; }
+.gc-short { width: 260px; height: 340px; align-self: flex-end; }
+.gc-wide  { width: 340px; height: 380px; }
+
+/* ================================================================
+   ABOUT / PHILOSOPHY
+   ================================================================ */
+.about-section {
+  padding: 8rem 0;
+  background: var(--ink);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+.about-img-wrap {
+  position: relative;
+}
+.about-img-frame {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+}
+.about-img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.about-img-accent {
+  position: absolute;
+  bottom: -1.5rem;
+  right: -1.5rem;
+  width: 120px; height: 120px;
+  border: 1px solid rgba(200,169,110,0.4);
+  border-radius: 12px;
+}
+.about-badge {
+  position: absolute;
+  top: 2rem; right: -2rem;
+  width: 100px; height: 100px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+.about-badge-num {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+}
+.about-badge-text {
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.about-content .label-tag { color: var(--gold); }
+.about-content .label-tag::before { background: var(--gold); }
+.about-content .section-heading { color: var(--white); margin-bottom: 2rem; }
+.about-content .section-heading em { color: var(--gold); }
+.about-lead {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.85;
+  margin-bottom: 2.5rem;
+}
+.about-stats {
+  display: flex;
+  gap: 3rem;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.stat-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ================================================================
+   SERVICES / PRICE
+   ================================================================ */
+.services-section {
+  padding: 8rem 0;
+  background: var(--ivory);
+}
+.services-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+  align-items: end;
+}
+.services-intro {
+  font-size: 0.95rem;
+  color: var(--ink-60);
+  line-height: 1.85;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.service-block {
+  background: var(--ivory);
+  padding: 2.5rem;
+  transition: background 0.4s var(--ease-out);
+  position: relative;
+}
+.service-block:hover { background: var(--cream); }
+.service-num {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 300;
+  color: rgba(196,144,154,0.2);
+  line-height: 1;
+  margin-bottom: 1rem;
+  transition: color 0.4s;
+}
+.service-block:hover .service-num { color: var(--rose); }
+.service-name {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.service-items {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.service-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--ink-60);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--border);
+}
+.service-item:last-child { border-bottom: none; padding-bottom: 0; }
+.service-price {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--rose-d);
+  white-space: nowrap;
+}
+.service-tag {
+  display: inline-block;
+  background: var(--blush);
+  color: var(--rose-d);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  margin-top: 0.75rem;
+}
+
+/* FULL-WIDTH SERVICE */
+.service-block-full {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+}
+.service-block-full .service-inner {
+  padding: 2.5rem;
+  border-right: 1px solid var(--border);
+}
+.service-block-full .service-inner:last-child { border-right: none; }
+
+/* ================================================================
+   LOYALTY
+   ================================================================ */
+.loyalty-section {
+  padding: 7rem 0;
+  background: var(--cream);
+  overflow: hidden;
+}
+.loyalty-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+.loyalty-visual {
+  position: relative;
+}
+.loyalty-card-ui {
+  background: var(--ink);
+  border-radius: 20px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(26,17,24,0.22);
+}
+.loyalty-card-ui::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--rose), var(--gold), var(--rose));
+}
+.lc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+}
+.lc-brand {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--white);
+  letter-spacing: 0.06em;
+}
+.lc-brand strong { font-weight: 600; }
+.lc-chip {
+  width: 44px; height: 32px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-l));
+  border-radius: 6px;
+}
+.lc-dots {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.lc-dot {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.25);
+  transition: all 0.3s;
+}
+.lc-dot.filled {
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  border-color: transparent;
+  color: var(--white);
+}
+.lc-dot.filled::after { content: '✦'; font-size: 0.6rem; }
+.lc-dot:not(.filled)::after { content: attr(data-n); }
+.lc-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.lc-reward {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+.lc-reward-label {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+.loyalty-deco {
+  position: absolute;
+  bottom: -1.5rem;
+  right: -1.5rem;
+  width: 80px; height: 80px;
+  border: 1px solid var(--blush);
+  border-radius: 50%;
+}
+
+.loyalty-text .label-tag { margin-bottom: 0.75rem; }
+.loyalty-text .section-heading { margin-bottom: 1.5rem; }
+.loyalty-text .section-heading em { color: var(--rose-d); }
+.loyalty-desc {
+  font-size: 0.9rem;
+  color: var(--ink-60);
+  line-height: 1.9;
+  margin-bottom: 2.5rem;
+}
+.loyalty-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.loyalty-step {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  background: var(--blush);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--rose-d);
+}
+.step-text {
+  font-size: 0.875rem;
+  color: var(--ink-60);
+  padding-top: 0.35rem;
+  line-height: 1.6;
+}
+
+/* ================================================================
+   BOOKING
+   ================================================================ */
+.booking-section {
+  padding: 8rem 0;
+  background: var(--ink);
+  color: var(--white);
+}
+.booking-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 6rem;
+  align-items: start;
+}
+.booking-info .label-tag { color: var(--gold); }
+.booking-info .label-tag::before { background: var(--gold); }
+.booking-info .section-heading { color: var(--white); margin-bottom: 1.5rem; }
+.booking-info .section-heading em { color: var(--gold); }
+.booking-info-text {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.9;
+  margin-bottom: 3rem;
+}
+.booking-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.booking-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.6);
+}
+.booking-contact-icon {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.booking-contact-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* FORM */
+.booking-form-wrap {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 3rem;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.form-group:last-child { margin-bottom: 0; }
+.form-label {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 300;
+  padding: 0.85rem 1.1rem;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.3s, background 0.3s;
+  -webkit-appearance: none;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+  background: rgba(255,255,255,0.09);
+}
+.form-group select option { background: var(--ink); color: var(--white); }
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.4);
+  cursor: pointer;
+}
+.form-error {
+  font-size: 0.68rem;
+  color: #e08080;
+  display: none;
+}
+.has-error .form-error { display: block; }
+.has-error input, .has-error select { border-color: #e08080 !important; }
+
+.slots-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.slot-btn {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px;
+  color: rgba(255,255,255,0.45);
+  background: transparent;
+  transition: all 0.25s;
+  font-family: var(--sans);
+}
+.slot-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+.slot-btn.active { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 500; }
+.slot-btn:disabled { opacity: 0.2; cursor: not-allowed; text-decoration: line-through; }
+
+.booking-success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding: 4rem 2rem;
+}
+.booking-success.show { display: flex; animation: fadeIn 0.5s var(--ease-out); }
+.success-icon {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  animation: popIn 0.5s var(--ease-out);
+}
+@keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+.booking-success h3 { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--white); }
+.booking-success p { color: rgba(255,255,255,0.45); font-size: 0.875rem; }
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 2.4rem;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  transition: all 0.4s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.btn-dark {
+  background: var(--ink);
+  color: var(--white);
+}
+.btn-dark:hover {
+  background: var(--rose-d);
+  transform: translateY(-2px);
+}
+.btn-gold {
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: 0 4px 24px rgba(200,169,110,0.35);
+}
+.btn-gold:hover {
+  background: var(--gold-l);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(200,169,110,0.45);
+}
+.btn-ghost {
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--white);
+  background: transparent;
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+.btn-outline-dark {
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+}
+.btn-outline-dark:hover {
+  background: var(--ink);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+.btn-full { width: 100%; }
+
+/* ================================================================
+   CONTACT / FOOTER
+   ================================================================ */
+.contact-section {
+  padding: 7rem 0 5rem;
+  background: var(--cream);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+.contact-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: box-shadow 0.4s, transform 0.4s;
+  background: var(--white);
+}
+.contact-card:hover { box-shadow: 0 12px 40px rgba(196,144,154,0.15); transform: translateY(-4px); }
+.contact-icon {
+  width: 48px; height: 48px;
+  background: var(--blush);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.contact-icon svg { width: 20px; height: 20px; stroke: var(--rose-d); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.contact-card h4 { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; }
+.contact-card p, .contact-card a { font-size: 0.85rem; color: var(--ink-60); line-height: 1.7; }
+.contact-card a:hover { color: var(--rose-d); }
+
+.footer {
+  background: var(--ink);
+  padding: 4rem 0 2rem;
+}
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.footer-brand { max-width: 260px; }
+.footer-brand-name {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--white);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+.footer-brand-name strong { font-weight: 600; }
+.footer-brand-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.footer-desc {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.8;
+  margin-top: 1rem;
+}
+.footer-nav {
+  display: flex;
+  gap: 4rem;
+}
+.footer-nav-col h5 {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 1.25rem;
+}
+.footer-nav-col a {
+  display: block;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 0.75rem;
+  transition: color 0.25s;
+}
+.footer-nav-col a:hover { color: var(--gold); }
+.footer-social { display: flex; gap: 0.75rem; }
+.footer-social a {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.35);
+  transition: all 0.3s;
+}
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+.footer-social svg { width: 15px; height: 15px; fill: currentColor; }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.18);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ================================================================
+   REVEAL / ANIMATIONS
+   ================================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: var(--d, 0s);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: var(--d, 0s);
+}
+.reveal-left.in { opacity: 1; transform: none; }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: var(--d, 0s);
+}
+.reveal-right.in { opacity: 1; transform: none; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 1024px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 0 2rem 6rem; justify-content: flex-end; min-height: 100dvh; }
+  .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .about-img-wrap { max-width: 400px; }
+  .services-header { grid-template-columns: 1fr; gap: 1.5rem; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .service-block-full { grid-column: auto; display: block; }
+  .service-block-full .service-inner { border-right: none; border-bottom: 1px solid var(--border); padding: 2rem; }
+  .loyalty-inner { grid-template-columns: 1fr; }
+  .booking-inner { grid-template-columns: 1fr; gap: 3rem; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .services-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-nav { gap: 2rem; flex-wrap: wrap; }
+  .footer-top { flex-direction: column; }
+}
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .booking-form-wrap { padding: 1.75rem; }
+  .about-stats { gap: 2rem; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-brand"><span>Sam Nails</span></div>
+  <div class="loader-line"></div>
+</div>
+
+<!-- CURSOR -->
+<div id="cursor">
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-brand">
+    <span class="nav-brand-name">Sam Nails</span>
+    <span class="nav-brand-tag">Nails With Love · Leuven</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#services">Diensten</a></li>
+    <li><a href="#loyalty">Loyalty</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#booking" class="nav-book">Reserveer</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#gallery">Gallery</a>
+  <a href="#services">Diensten</a>
+  <a href="#loyalty">Loyalty</a>
+  <a href="#booking">Reserveer</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <p class="hero-overline"><span>Savoyestraat 3, Leuven</span></p>
+    <h1 class="hero-title">
+      <span class="word"><span>Sam</span></span>
+      <span class="word"><span>Nails</span></span>
+    </h1>
+    <p class="hero-sub">Professionele nagelverzorging met oog voor detail. Jouw nagels, jouw stijl — met liefde gemaakt.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn btn-dark">Maak afspraak</a>
+      <a href="#services" class="btn btn-outline-dark">Prijslijst</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img id="heroPhoto" alt="Nail art Sam Nails Leuven" />
+  </div>
+  <div class="hero-scroll-hint">Scroll</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item"><span class="dot"></span> Nail Art</div>
+    <div class="marquee-item"><span class="dot"></span> Manicure</div>
+    <div class="marquee-item"><span class="dot"></span> Pedicure</div>
+    <div class="marquee-item"><span class="dot"></span> French &amp; Babyboom</div>
+    <div class="marquee-item"><span class="dot"></span> Voetmassage</div>
+    <div class="marquee-item"><span class="dot"></span> Loyalty Card</div>
+    <div class="marquee-item"><span class="dot"></span> Leuven</div>
+    <div class="marquee-item"><span class="dot"></span> Savoyestraat 3</div>
+    <div class="marquee-item"><span class="dot"></span> Nail Art</div>
+    <div class="marquee-item"><span class="dot"></span> Manicure</div>
+    <div class="marquee-item"><span class="dot"></span> Pedicure</div>
+    <div class="marquee-item"><span class="dot"></span> French &amp; Babyboom</div>
+    <div class="marquee-item"><span class="dot"></span> Voetmassage</div>
+    <div class="marquee-item"><span class="dot"></span> Loyalty Card</div>
+    <div class="marquee-item"><span class="dot"></span> Leuven</div>
+    <div class="marquee-item"><span class="dot"></span> Savoyestraat 3</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GALLERY
+     ============================================================ -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-header reveal">
+    <div>
+      <p class="label-tag">Portfolio</p>
+      <h2 class="section-heading">Onze <em>creaties</em></h2>
+    </div>
+    <div class="gallery-scroll-hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Swipe to explore
+    </div>
+  </div>
+  <div class="gallery-track" id="galleryTrack">
+    <div class="gallery-card gc-tall">
+      <img src="https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?cs=tinysrgb&w=600" alt="Nail art" loading="lazy" onerror="this.closest('.gallery-card').style.display='none'" />
+      <div class="gallery-card-label">Nail Art</div>
+    </div>
+    <div class="gallery-card gc-short">
+      <img src="https://images.pexels.com/photos/939836/pexels-photo-939836.jpeg?cs=tinysrgb&w=600" alt="Manicure" loading="lazy" onerror="this.closest('.gallery-card').style.display='none'" />
+      <div class="gallery-card-label">Manicure</div>
+    </div>
+    <div class="gallery-card gc-wide">
+      <img src="https://images.pexels.com/photos/1244635/pexels-photo-1244635.jpeg?cs=tinysrgb&w=700" alt="French" loading="lazy" onerror="this.closest('.gallery-card').style.display='none'" />
+      <div class="gallery-card-label">French</div>
+    </div>
+    <div class="gallery-card gc-tall">
+      <img src="https://images.pexels.com/photos/3997384/pexels-photo-3997384.jpeg?cs=tinysrgb&w=600" alt="Gelnagels" loading="lazy" onerror="this.closest('.gallery-card').style.display='none'" />
+      <div class="gallery-card-label">Gelnagels</div>
+    </div>
+    <div class="gallery-card gc-short">
+      <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?cs=tinysrgb&w=600" alt="Babyboom" loading="lazy" onerror="this.closest('.gallery-card').style.display='none'" />
+      <div class="gallery-card-label">Babyboom</div>
+    </div>
+    <div class="gallery-card gc-wide">
+      <img src="https://images.pexels.com/photos/3997390/pexels-photo-3997390.jpeg?cs=tinysrgb&w=700" alt="Pedicure" loading="lazy" onerror="this.closest('.gallery-card').style.display='none'" />
+      <div class="gallery-card-label">Pedicure</div>
+    </div>
+    <div class="gallery-card gc-tall">
+      <img src="https://images.pexels.com/photos/3997382/pexels-photo-3997382.jpeg?cs=tinysrgb&w=600" alt="Extra Art" loading="lazy" onerror="this.closest('.gallery-card').style.display='none'" />
+      <div class="gallery-card-label">Extra Art</div>
+    </div>
+    <div class="gallery-card gc-short">
+      <img src="https://images.pexels.com/photos/3997385/pexels-photo-3997385.jpeg?cs=tinysrgb&w=600" alt="Diamant" loading="lazy" onerror="this.closest('.gallery-card').style.display='none'" />
+      <div class="gallery-card-label">Diamant</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section class="about-section">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-img-wrap reveal-left">
+        <div class="about-img-frame">
+          <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?cs=tinysrgb&w=800" alt="Sam Nails studio" onerror="this.style.display='none'" />
+        </div>
+        <div class="about-img-accent"></div>
+        <div class="about-badge">
+          <span class="about-badge-num">5+</span>
+          <span class="about-badge-text">jaar<br>ervaring</span>
+        </div>
+      </div>
+      <div class="about-content reveal-right">
+        <p class="label-tag">Over ons</p>
+        <h2 class="section-heading">Schoonheid<br>in elk <em>detail</em></h2>
+        <p class="about-lead">Bij Sam Nails geloven we dat nagelverzorging meer is dan esthetiek — het is een moment van rust, verwennerij en zelfexpressie. We werken met premium producten en besteden aandacht aan elk detail.</p>
+        <div class="about-stats">
+          <div>
+            <div class="stat-num">500+</div>
+            <div class="stat-label">Tevreden klanten</div>
+          </div>
+          <div>
+            <div class="stat-num">20+</div>
+            <div class="stat-label">Diensten</div>
+          </div>
+          <div>
+            <div class="stat-num">5★</div>
+            <div class="stat-label">Reviews</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVICES / PRICING
+     ============================================================ -->
+<section class="services-section" id="services">
+  <div class="container">
+    <div class="services-header">
+      <div class="reveal">
+        <p class="label-tag">Tarieven</p>
+        <h2 class="section-heading">Onze <em>diensten</em><br>&amp; prijzen</h2>
+      </div>
+      <p class="services-intro reveal" style="--d:.15s">Alle behandelingen worden uitgevoerd met premium producten. Prijzen zijn inclusief BTW. Neem contact op voor maatwerkwerk of groepsboeking.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Eigen Nagels -->
+      <div class="service-block reveal">
+        <div class="service-num">01</div>
+        <div class="service-name">Eigen Nagels</div>
+        <span class="service-tag">Manicure</span>
+        <ul class="service-items">
+          <li class="service-item"><span>Eigen nagel</span><span class="service-price">€30</span></li>
+          <li class="service-item"><span>French / Babyboom</span><span class="service-price">€35</span></li>
+          <li class="service-item"><span>Nagel lakken</span><span class="service-price">€25</span></li>
+          <li class="service-item"><span>Bijwerking</span><span class="service-price">€35</span></li>
+          <li class="service-item"><span>Verwijderen</span><span class="service-price">€15</span></li>
+          <li class="service-item"><span>Manicure</span><span class="service-price">€15</span></li>
+        </ul>
+      </div>
+
+      <!-- Nieuw Set -->
+      <div class="service-block reveal" style="--d:.1s">
+        <div class="service-num">02</div>
+        <div class="service-name">Nieuw Set</div>
+        <span class="service-tag">Extensions</span>
+        <ul class="service-items">
+          <li class="service-item"><span>Nieuwe set</span><span class="service-price">v.a. €30</span></li>
+          <li class="service-item"><span>Met French / Babyboom</span><span class="service-price">€35</span></li>
+          <li class="service-item"><span>Bijwerking</span><span class="service-price">€35</span></li>
+          <li class="service-item"><span>Verwijderen</span><span class="service-price">€15</span></li>
+        </ul>
+      </div>
+
+      <!-- Pedicure -->
+      <div class="service-block reveal" style="--d:.2s">
+        <div class="service-num">03</div>
+        <div class="service-name">Pedicure</div>
+        <span class="service-tag">Voeten</span>
+        <ul class="service-items">
+          <li class="service-item"><span>Pedicure</span><span class="service-price">v.a. €35</span></li>
+          <li class="service-item"><span>Teenagels</span><span class="service-price">€30</span></li>
+          <li class="service-item"><span>Pedicure + Teenagels</span><span class="service-price">€45</span></li>
+          <li class="service-item"><span>Pedicure + Massage (15min)</span><span class="service-price">€45</span></li>
+          <li class="service-item"><span>Voet massage (30min)</span><span class="service-price">€45</span></li>
+          <li class="service-item"><span>Voet massage (1 uur)</span><span class="service-price">€60</span></li>
+          <li class="service-item"><span>Teenagels lakken</span><span class="service-price">€25</span></li>
+        </ul>
+      </div>
+
+      <!-- Extra — full width -->
+      <div class="service-block service-block-full reveal" style="--d:.3s">
+        <div class="service-block-full" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;">
+          <div class="service-inner">
+            <div class="service-num">04</div>
+            <div class="service-name">Nail Art</div>
+            <span class="service-tag">Decoratie</span>
+            <ul class="service-items">
+              <li class="service-item"><span>Nail art (foto)</span><span class="service-price">€10/nagel</span></li>
+              <li class="service-item"><span>Sticker</span><span class="service-price">€6/2st</span></li>
+              <li class="service-item"><span>Diamant klein</span><span class="service-price">€6/2st</span></li>
+              <li class="service-item"><span>Diamant groot</span><span class="service-price">€8/1st</span></li>
+            </ul>
+          </div>
+          <div class="service-inner">
+            <div class="service-num">05</div>
+            <div class="service-name">Extra's</div>
+            <span class="service-tag">Add-ons</span>
+            <ul class="service-items">
+              <li class="service-item"><span>Extra long</span><span class="service-price">€10–15</span></li>
+              <li class="service-item"><span>Fake nail voet (groot)</span><span class="service-price">€10/2st</span></li>
+            </ul>
+          </div>
+          <div class="service-inner">
+            <div class="service-num">06</div>
+            <div class="service-name">Kleuren</div>
+            <span class="service-tag">Kleur</span>
+            <ul class="service-items">
+              <li class="service-item"><span>3–5 kleuren</span><span class="service-price">€10</span></li>
+              <li class="service-item"><span>6–10 kleuren</span><span class="service-price">€15</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LOYALTY
+     ============================================================ -->
+<section class="loyalty-section" id="loyalty">
+  <div class="container">
+    <div class="loyalty-inner">
+      <div class="loyalty-visual reveal-left">
+        <div class="loyalty-card-ui">
+          <div class="lc-top">
+            <div>
+              <div class="lc-brand">Sam <strong>Nails</strong></div>
+              <div style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-top:2px;">Loyalty Card</div>
+            </div>
+            <div class="lc-chip"></div>
+          </div>
+          <div class="lc-dots" id="lcDots"></div>
+          <div class="lc-bottom">
+            <div>
+              <div class="lc-reward">−€15</div>
+              <div class="lc-reward-label">bij je 9e bezoek</div>
+            </div>
+            <div style="font-family:var(--serif);font-size:1.3rem;font-weight:300;color:rgba(255,255,255,0.15);letter-spacing:0.08em;">NAILS</div>
+          </div>
+        </div>
+        <div class="loyalty-deco"></div>
+      </div>
+      <div class="loyalty-text reveal-right">
+        <p class="label-tag">Loyaliteitsprogramma</p>
+        <h2 class="section-heading">Kom terug &<br><em>geniet van voordelen</em></h2>
+        <p class="loyalty-desc">Elke behandeling bij Sam Nails telt. Na 9 bezoeken ontvang je automatisch €15 korting op je volgende afspraak — als onze manier van dankjewel zeggen.</p>
+        <div class="loyalty-steps">
+          <div class="loyalty-step">
+            <div class="step-num">1</div>
+            <div class="step-text">Kom langs voor een behandeling naar keuze</div>
+          </div>
+          <div class="loyalty-step">
+            <div class="step-num">2</div>
+            <div class="step-text">Stempel je loyalty card bij elk bezoek</div>
+          </div>
+          <div class="loyalty-step">
+            <div class="step-num">3</div>
+            <div class="step-text">Na 9 stempels: €15 korting op je volgende behandeling</div>
+          </div>
+        </div>
+        <a href="#booking" class="btn btn-dark">Start uw kaart vandaag</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BOOKING
+     ============================================================ -->
+<section class="booking-section" id="booking">
+  <div class="container">
+    <div class="booking-inner">
+      <div class="booking-info reveal-left">
+        <p class="label-tag">Online reserveren</p>
+        <h2 class="section-heading">Maak een <em>afspraak</em></h2>
+        <p class="booking-info-text">Kies uw dienst, datum en tijdslot. We nemen contact met u op ter bevestiging. Maandag gesloten.</p>
+        <div class="booking-contact-list">
+          <div class="booking-contact-item">
+            <div class="booking-contact-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <span>Savoyestraat 3, 3000 Leuven</span>
+          </div>
+          <div class="booking-contact-item">
+            <div class="booking-contact-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <a href="tel:+32465996369" style="color:inherit">+32 465 99 63 69</a>
+          </div>
+          <div class="booking-contact-item">
+            <div class="booking-contact-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+            <a href="https://instagram.com/nailswithlove" target="_blank" rel="noopener" style="color:inherit">@Nails With Love</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-form-wrap reveal-right">
+        <form id="bookForm" novalidate>
+          <div class="form-row">
+            <div class="form-group" id="fg-name">
+              <label class="form-label">Naam</label>
+              <input type="text" id="bname" placeholder="Jouw naam" />
+              <span class="form-error">Voer uw naam in</span>
+            </div>
+            <div class="form-group" id="fg-phone">
+              <label class="form-label">Telefoon</label>
+              <input type="tel" id="bphone" placeholder="+32 465 99 63 69" />
+              <span class="form-error">Voer uw telefoonnummer in</span>
+            </div>
+          </div>
+          <div class="form-group" id="fg-service">
+            <label class="form-label">Dienst</label>
+            <select id="bservice">
+              <option value="">— Kies een dienst —</option>
+              <optgroup label="Eigen Nagels">
+                <option value="eigennagel">Eigen nagel — €30</option>
+                <option value="eigennagel-french">French / Babyboom — €35</option>
+                <option value="nagellakken">Nagel lakken — €25</option>
+                <option value="bijwerking">Bijwerking — €35</option>
+                <option value="verwijderen">Verwijderen — €15</option>
+                <option value="manicure">Manicure — €15</option>
+              </optgroup>
+              <optgroup label="Nieuw Set">
+                <option value="nieuweset">Nieuwe set — v.a. €30</option>
+                <option value="nieuweset-french">Met French/Babyboom — €35</option>
+              </optgroup>
+              <optgroup label="Pedicure">
+                <option value="pedicure">Pedicure — v.a. €35</option>
+                <option value="teenagels">Teenagels — €30</option>
+                <option value="pedicure-teenagels">Pedicure + Teenagels — €45</option>
+                <option value="pedicure-massage">Pedicure + Massage (15min) — €45</option>
+                <option value="voetmassage-30">Voet massage (30min) — €45</option>
+                <option value="voetmassage-60">Voet massage (1u) — €60</option>
+                <option value="teenagels-lakken">Teenagels lakken — €25</option>
+              </optgroup>
+            </select>
+            <span class="form-error">Kies een dienst</span>
+          </div>
+          <div class="form-row">
+            <div class="form-group" id="fg-date">
+              <label class="form-label">Datum</label>
+              <input type="date" id="bdate" />
+              <span class="form-error">Kies een datum</span>
+            </div>
+            <div class="form-group" id="fg-time">
+              <label class="form-label">Tijdslot</label>
+              <div class="slots-wrap" id="slots"></div>
+              <input type="hidden" id="btime" />
+              <span class="form-error">Kies een tijdslot</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notities (optioneel)</label>
+            <textarea id="bnotes" rows="2" placeholder="Extra wensen of opmerkingen..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-gold btn-full" style="margin-top:0.25rem">Afspraak bevestigen</button>
+        </form>
+        <div class="booking-success" id="bookSuccess">
+          <div class="success-icon">✦</div>
+          <h3>Afspraak bevestigd!</h3>
+          <p>We nemen contact op ter bevestiging.<br>Tot snel bij Sam Nails.</p>
+          <button class="btn btn-ghost" id="bookAgain">Nieuwe afspraak</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="reveal">
+      <p class="label-tag">Vind ons</p>
+      <h2 class="section-heading">Contact</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card reveal">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h4>Adres</h4>
+        <p>Savoyestraat 3<br>3000 Leuven, België</p>
+      </div>
+      <div class="contact-card reveal" style="--d:.1s">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <h4>Telefoon</h4>
+        <a href="tel:+32465996369">+32 465 99 63 69</a>
+      </div>
+      <div class="contact-card reveal" style="--d:.2s">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <h4>Instagram</h4>
+        <a href="https://instagram.com/nailswithlove" target="_blank" rel="noopener">@Nails With Love</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-name">Sam <strong>Nails</strong></div>
+        <div class="footer-brand-tag">Nails With Love</div>
+        <p class="footer-desc">Premium nagelverzorging in het hart van Leuven. Met passie gemaakt, met liefde verzorgd.</p>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-nav-col">
+          <h5>Diensten</h5>
+          <a href="#services">Manicure</a>
+          <a href="#services">Pedicure</a>
+          <a href="#services">Nail Art</a>
+          <a href="#services">Extensions</a>
+        </div>
+        <div class="footer-nav-col">
+          <h5>Info</h5>
+          <a href="#gallery">Gallery</a>
+          <a href="#loyalty">Loyalty Card</a>
+          <a href="#contact">Contact</a>
+          <a href="#booking">Reserveer</a>
+        </div>
+      </div>
+      <div class="footer-social">
+        <a href="https://instagram.com/nailswithlove" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Sam Nails · Savoyestraat 3, Leuven</span>
+      <span>Alle rechten voorbehouden</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* LOADER */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('out');
+    document.body.style.cursor = 'none';
+  }, 1600);
+});
+
+/* CUSTOM CURSOR */
+const cursor = document.getElementById('cursor');
+const dot    = cursor.querySelector('.cursor-dot');
+const ring   = cursor.querySelector('.cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+function animCursor() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  dot.style.transform  = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
+  ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+document.querySelectorAll('a, button, .gallery-card, .service-block, .contact-card').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+/* NAV */
+const nav = document.getElementById('nav');
+const ham = document.getElementById('hamburger');
+const mob = document.getElementById('mobileMenu');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), { passive: true });
+ham.addEventListener('click', () => {
+  const open = ham.classList.toggle('open');
+  mob.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  ham.classList.remove('open'); mob.classList.remove('open'); document.body.style.overflow = '';
+}));
+
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (!t) return;
+    e.preventDefault();
+    window.scrollTo({ top: t.offsetTop - nav.offsetHeight, behavior: 'smooth' });
+  });
+});
+
+/* HERO PHOTO */
+(function() {
+  const img = document.getElementById('heroPhoto');
+  const urls = [
+    'https://images.pexels.com/photos/17280274/pexels-photo-17280274.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    'https://images.pexels.com/photos/3997390/pexels-photo-3997390.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    'https://images.pexels.com/photos/1244635/pexels-photo-1244635.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  ];
+  let i = 0;
+  img.onerror = () => { if (++i < urls.length) img.src = urls[i]; else img.style.display = 'none'; };
+  img.src = urls[0];
+})();
+
+/* LOYALTY DOTS */
+const lcDots = document.getElementById('lcDots');
+for (let i = 1; i <= 9; i++) {
+  const d = document.createElement('div');
+  d.className = 'lc-dot' + (i <= 5 ? ' filled' : '');
+  d.setAttribute('data-n', i);
+  lcDots.appendChild(d);
+}
+
+/* SCROLL REVEAL */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => ro.observe(el));
+
+/* GALLERY DRAG SCROLL */
+const track = document.getElementById('galleryTrack');
+let isDown = false, startX, scrollLeft;
+track.addEventListener('mousedown', e => { isDown = true; track.classList.add('active'); startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; });
+track.addEventListener('mouseleave', () => { isDown = false; });
+track.addEventListener('mouseup', () => { isDown = false; });
+track.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - track.offsetLeft; track.scrollLeft = scrollLeft - (x - startX) * 1.4; });
+
+/* TIME SLOTS */
+const slotTimes = ['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00'];
+const slotsEl = document.getElementById('slots');
+const btimeEl = document.getElementById('btime');
+slotTimes.forEach((t, i) => {
+  const btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'slot-btn'; btn.textContent = t;
+  if ([2, 6].includes(i)) btn.disabled = true;
+  btn.addEventListener('click', () => {
+    slotsEl.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active'); btimeEl.value = t;
+    document.getElementById('fg-time').classList.remove('has-error');
+  });
+  slotsEl.appendChild(btn);
+});
+
+/* DATE PICKER */
+const bdateEl = document.getElementById('bdate');
+bdateEl.min = new Date().toISOString().split('T')[0];
+bdateEl.addEventListener('change', () => {
+  if (new Date(bdateEl.value + 'T00:00:00').getDay() === 1) {
+    bdateEl.value = ''; alert('Maandag gesloten. Kies een andere dag.');
+  }
+});
+
+/* BOOKING FORM */
+const form = document.getElementById('bookForm');
+const bookSuccess = document.getElementById('bookSuccess');
+
+function validate(id, check) {
+  const fg = document.getElementById(id);
+  const inp = fg.querySelector('input,select');
+  const ok = check(inp);
+  fg.classList.toggle('has-error', !ok);
+  if (inp) inp.classList.toggle('error', !ok);
+  return ok;
+}
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const n = validate('fg-name',    el => el.value.trim().length > 1);
+  const p = validate('fg-phone',   el => el.value.trim().length > 4);
+  const s = validate('fg-service', el => el.value !== '');
+  const d = validate('fg-date',    el => el.value !== '');
+  const tFg = document.getElementById('fg-time');
+  const t = btimeEl.value !== '';
+  tFg.classList.toggle('has-error', !t);
+  if (!(n && p && s && d && t)) return;
+  form.style.display = 'none';
+  bookSuccess.classList.add('show');
+  bookSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+document.getElementById('bookAgain').addEventListener('click', () => {
+  form.reset(); btimeEl.value = '';
+  slotsEl.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.has-error').forEach(g => g.classList.remove('has-error'));
+  document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+  form.style.display = ''; bookSuccess.classList.remove('show');
+});
+</script>
+</body>
+</html>
