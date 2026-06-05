@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="white">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Sam Nails Leuven</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="loader"><div class="loader-brand"><span>Blog</span></div><div class="loader-line"></div></div>
+<div id="cursor"><div class="cursor-dot"></div><div class="cursor-ring"></div></div>
+
+<!-- NAV -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-brand">
+    <span class="nav-brand-name">Sam Nails</span>
+    <span class="nav-brand-tag">Nails With Love · Leuven</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html#gallery"  data-i18n="nav.gallery">Gallery</a></li>
+    <li><a href="index.html#services" data-i18n="nav.services">Diensten</a></li>
+    <li><a href="blog.html"           data-i18n="nav.blog" style="color:var(--rose-d)">Blog</a></li>
+    <li><a href="index.html#contact"  data-i18n="nav.contact">Contact</a></li>
+    <li><a href="index.html#booking"  class="nav-book" data-i18n="nav.book">Reserveer</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn" data-lang="nl">NL</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+    </div>
+    <div class="theme-toggle-wrap">
+      <span class="theme-toggle-icon">🌸</span>
+      <button class="theme-toggle" aria-label="Toggle theme"></button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="index.html#services" data-i18n="nav.services">Diensten</a>
+  <a href="blog.html" data-i18n="nav.blog">Blog</a>
+  <a href="index.html#booking" data-i18n="nav.book">Reserveer</a>
+  <div class="mobile-lang">
+    <button class="lang-btn" data-lang="nl">NL</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+  </div>
+</div>
+
+<!-- BLOG PAGE HERO -->
+<div class="blog-page-hero">
+  <div class="container">
+    <p class="label-tag reveal" data-i18n="blog.label">Inspiratie</p>
+    <h1 class="section-heading reveal" style="--d:.1s;font-size:clamp(3rem,7vw,5.5rem)" data-i18n="blog.title">Laatste <em>artikelen</em></h1>
+    <p class="reveal" style="--d:.2s;font-size:.95rem;color:var(--ink-60);margin-top:1.25rem;max-width:500px">Nieuws, trends en tips over nagelverzorging — rechtstreeks vanuit de studio van Sam Nails in Leuven.</p>
+  </div>
+</div>
+
+<!-- BLOG LISTING -->
+<section class="blog-listing">
+  <div class="container">
+    <div class="blog-listing-grid">
+
+      <div class="blog-card reveal">
+        <div class="blog-card-img">
+          <img src="https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?cs=tinysrgb&w=700" alt="Gel vs Acryl" loading="lazy" onerror="this.style.display='none'" />
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-cat" data-i18n="b1.cat">Advies</span>
+            <span class="blog-date">15 mei 2026</span>
+          </div>
+          <h3 class="blog-card-title" data-i18n="b1.title">Gel vs Acryl: wat past bij jou?</h3>
+          <p class="blog-card-exc" data-i18n="b1.exc">Twijfel je tussen gel- of acrylnagels? We zetten de voor- en nadelen van beide opties op een rij.</p>
+          <a href="blog-1.html" class="blog-read" data-i18n="blog.read">Lees meer</a>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" style="--d:.1s">
+        <div class="blog-card-img">
+          <img src="https://images.pexels.com/photos/1244635/pexels-photo-1244635.jpeg?cs=tinysrgb&w=700" alt="Trendkleuren" loading="lazy" onerror="this.style.display='none'" />
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-cat" data-i18n="b2.cat">Trends</span>
+            <span class="blog-date">22 april 2026</span>
+          </div>
+          <h3 class="blog-card-title" data-i18n="b2.title">Trendkleuren lente &amp; zomer 2026</h3>
+          <p class="blog-card-exc" data-i18n="b2.exc">De schoonste nagelkleuren en -stijlen die dit seizoen de boventoon voeren.</p>
+          <a href="blog-2.html" class="blog-read" data-i18n="blog.read">Lees meer</a>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" style="--d:.2s">
+        <div class="blog-card-img">
+          <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?cs=tinysrgb&w=700" alt="Thuisverzorging" loading="lazy" onerror="this.style.display='none'" />
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-cat" data-i18n="b3.cat">Tips</span>
+            <span class="blog-date">5 april 2026</span>
+          </div>
+          <h3 class="blog-card-title" data-i18n="b3.title">Hoe onderhoud je gelnagels thuis?</h3>
+          <p class="blog-card-exc" data-i18n="b3.exc">Met de juiste thuisverzorging gaan je gelnagels weken langer mee. Zo doe je het.</p>
+          <a href="blog-3.html" class="blog-read" data-i18n="blog.read">Lees meer</a>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" style="--d:.05s">
+        <div class="blog-card-img">
+          <img src="https://images.pexels.com/photos/3997390/pexels-photo-3997390.jpeg?cs=tinysrgb&w=700" alt="Pedicure" loading="lazy" onerror="this.style.display='none'" />
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-cat">Wellness</span>
+            <span class="blog-date">18 maart 2026</span>
+          </div>
+          <h3 class="blog-card-title">Pedicure: luxe of noodzaak?</h3>
+          <p class="blog-card-exc">Waarom een regelmatige pedicure meer is dan een schoonheidsbehandeling — en wat de gezondheidsvoordelen zijn.</p>
+          <a href="blog-3.html" class="blog-read">Lees meer</a>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" style="--d:.15s">
+        <div class="blog-card-img">
+          <img src="https://images.pexels.com/photos/939836/pexels-photo-939836.jpeg?cs=tinysrgb&w=700" alt="Babyboom" loading="lazy" onerror="this.style.display='none'" />
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-cat">Tutorial</span>
+            <span class="blog-date">2 maart 2026</span>
+          </div>
+          <h3 class="blog-card-title">De perfecte babyboom nagels</h3>
+          <p class="blog-card-exc">Alles wat je moet weten over de babyboom techniek: van uitvoering tot onderhoud en tips om langer te genieten.</p>
+          <a href="blog-1.html" class="blog-read">Lees meer</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-name">Sam <strong>Nails</strong></div>
+        <div class="footer-brand-tag" data-i18n="footer.tagline">Nails With Love</div>
+        <p class="footer-desc" data-i18n="footer.desc">Premium nagelverzorging in het hart van Leuven.</p>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-nav-col">
+          <h5>Navigatie</h5>
+          <a href="index.html">Home</a>
+          <a href="index.html#services">Diensten</a>
+          <a href="index.html#booking">Reserveer</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </div>
+      <div class="footer-social">
+        <a href="https://instagram.com/nailswithlove" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Sam Nails · Savoyestraat 3, Leuven</span>
+      <span data-i18n="footer.rights">Alle rechten voorbehouden</span>
+    </div>
+  </div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
