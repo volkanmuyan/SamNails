@@ -89,34 +89,26 @@
 </div>
 
 <!-- ============================================================
-     HERO — dark-red card, split-screen
+     HERO
      ============================================================ -->
 <section class="hero" id="hero">
-  <div class="hero-card">
-    <canvas id="heroCanvas"></canvas>
-
-    <!-- Left: heading + sub + pill CTA -->
-    <div class="hero-left">
-      <h1 class="hero-heading" data-i18n="hero.heading">Jouw nagels verdienen het beste</h1>
-      <p  class="hero-sub"     data-i18n="hero.sub">Professionele nagelverzorging met oog voor detail. Jouw nagels, jouw stijl.</p>
-      <a  class="hero-pill"    href="#booking">
-        <span class="hero-pill-text" data-i18n="hero.cta1">Maak een afspraak</span>
-        <span class="hero-pill-icon" aria-hidden="true">
-          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.5 11.5L11.5 2.5M11.5 2.5H5M11.5 2.5V9"
-                  stroke="#8b0000" stroke-width="1.7"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </a>
-    </div>
-
-    <!-- Right: model photo (src set by initHeroPhoto()) -->
-    <div class="hero-right">
-      <img id="heroPhoto" alt="Sam Nails Leuven — nail art" />
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-left">
+    <p class="hero-overline"><span data-i18n="hero.location">Savoyestraat 3 · Leuven, België</span></p>
+    <h1 class="hero-title">
+      <span class="line l1"><span>Sam</span></span>
+      <span class="line l2"><span>Nails</span></span>
+    </h1>
+    <p class="hero-tagline" data-i18n="hero.tagline">— Nails With Love —</p>
+    <p class="hero-sub" data-i18n="hero.sub">Professionele nagelverzorging met oog voor detail. Jouw nagels, jouw stijl.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn btn-dark" data-i18n="hero.cta1">Maak afspraak</a>
+      <a href="#services" class="btn btn-outline" data-i18n="hero.cta2">Bekijk prijzen</a>
     </div>
   </div>
-
+  <div class="hero-right">
+    <img id="heroPhoto" alt="Sam Nails Leuven" />
+  </div>
   <div class="hero-scroll-hint">Scroll</div>
 </section>
 

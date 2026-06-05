@@ -10,9 +10,11 @@ const TRANSLATIONS = {
     'nav.back':      '← Barbershop',
 
     /* HERO */
-    'hero.heading':  'Jouw nagels verdienen het beste',
-    'hero.sub':      'Premium nagelverzorging in het hart van Leuven. Jouw stijl, onze zorg.',
-    'hero.cta1':     'Maak een afspraak',
+    'hero.location': 'Savoyestraat 3 · Leuven, België',
+    'hero.tagline':  '— Nails With Love —',
+    'hero.sub':      'Professionele nagelverzorging met oog voor detail. Jouw nagels, jouw stijl.',
+    'hero.cta1':     'Maak afspraak',
+    'hero.cta2':     'Bekijk prijzen',
 
     /* GALLERY */
     'gallery.label':  'Portfolio',
@@ -112,9 +114,11 @@ const TRANSLATIONS = {
     'nav.book':      'Book Now',
     'nav.back':      '← Barbershop',
 
-    'hero.heading':  'Elevate Your Nail Experience',
-    'hero.sub':      'Premium nail care in the heart of Leuven. Your style, our craft.',
-    'hero.cta1':     'Book Your Appointment',
+    'hero.location': 'Savoyestraat 3 · Leuven, Belgium',
+    'hero.tagline':  '— Nails With Love —',
+    'hero.sub':      'Professional nail care with an eye for detail. Your nails, your style.',
+    'hero.cta1':     'Book appointment',
+    'hero.cta2':     'View prices',
 
     'gallery.label':  'Portfolio',
     'gallery.title':  'Our <em>creations</em>',
@@ -204,9 +208,11 @@ const TRANSLATIONS = {
     'nav.book':      'Réserver',
     'nav.back':      '← Coiffeur',
 
-    'hero.heading':  'Sublimez Votre Expérience Ongles',
-    'hero.sub':      'Soins des ongles premium au cœur de Leuven. Votre style, notre passion.',
+    'hero.location': 'Savoyestraat 3 · Leuven, Belgique',
+    'hero.tagline':  '— Nails With Love —',
+    'hero.sub':      'Soins des ongles professionnels avec le souci du détail. Vos ongles, votre style.',
     'hero.cta1':     'Prendre rendez-vous',
+    'hero.cta2':     'Voir les tarifs',
 
     'gallery.label':  'Portfolio',
     'gallery.title':  'Nos <em>créations</em>',
